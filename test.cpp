@@ -6,13 +6,6 @@ int main()
     sf::C
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-        window.draw
     return 0;
 }
