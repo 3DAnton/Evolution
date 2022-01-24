@@ -1,0 +1,4 @@
+﻿  main1.cpp
+U:\antonSos\sas 2\sas\sas\main1.cpp(43,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+U:\antonSos\sas 2\sas\sas\main1.cpp(43,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  sas.vcxproj -> U:\antonSos\sas 2\sas\Debug\sas.exe
