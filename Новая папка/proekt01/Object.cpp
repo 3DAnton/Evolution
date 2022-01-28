@@ -1,4 +1,4 @@
-#include "object.h"
+lude "object.h"
 
 Object::Object(ObjectType aType) :
 
@@ -10,7 +10,6 @@ Object::~Object()
 }
   
 Object::ObjectType
-
 Object::getType()const
 {
 	return mType;
