@@ -11,17 +11,15 @@
 
 class Map
 {
-public:
-
-	Map();
-	~Map() {}
-	std::vector<std::vector<Object::ObjectType>> getPresentation();
-
-
-	//	void tabl(std::vector <std::vector<Object::ObjectType>> map);
+	public:
+		Map();
+		~Map() {}
+	
+		std::vector<std::vector<Object::ObjectType>> getPresentation();
+	
 
 private:
-	std::vector<std::vector<Object::ObjectType>> mField;
+	std::vector<std::vector<Object*>> mField;
 };
 
 #endif // !MAP_H
