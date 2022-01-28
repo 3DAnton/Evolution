@@ -11,12 +11,13 @@
 
 class Map
 {
-	public:
-		Map();
-		~Map() {}
-	
-		std::vector<std::vector<Object::ObjectType>> getPresentation();
-	
+public:
+	Map();
+	~Map();
+
+	std::vector<std::vector<Object::ObjectType>> 
+		getPresentation();
+
 
 private:
 	std::vector<std::vector<Object*>> mField;
