@@ -7,7 +7,7 @@ class Bot :public Object
 {
 public:
 	Bot();
-	int move() {};
+	int move() ;
 };
 
 #endif // !BOT_H
