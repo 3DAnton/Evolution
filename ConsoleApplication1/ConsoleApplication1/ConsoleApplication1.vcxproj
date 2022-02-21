@@ -144,12 +144,16 @@
   <ItemGroup>
     <ClCompile Include="..\..\proga_1\proga_1\1.cpp" />
     <ClCompile Include="..\..\proga_1\proga_1\Bot.cpp" />
+    <ClCompile Include="..\..\proga_1\proga_1\direction.cpp" />
     <ClCompile Include="..\..\proga_1\proga_1\Gui.cpp" />
     <ClCompile Include="..\..\proga_1\proga_1\Map.cpp" />
     <ClCompile Include="..\..\proga_1\proga_1\Object.cpp" />
+    <ClCompile Include="God.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\proga_1\proga_1\Bot.h" />
+    <ClInclude Include="..\..\proga_1\proga_1\direction.h" />
+    <ClInclude Include="..\..\proga_1\proga_1\God.h" />
     <ClInclude Include="..\..\proga_1\proga_1\Gui.h" />
     <ClInclude Include="..\..\proga_1\proga_1\Map.h" />
     <ClInclude Include="..\..\proga_1\proga_1\Object.h" />

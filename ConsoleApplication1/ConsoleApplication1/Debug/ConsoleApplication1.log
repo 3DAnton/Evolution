@@ -1,0 +1,10 @@
+﻿  Gui.cpp
+D:\project\proga_1\proga_1\Gui.h(6,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\project\proga_1\proga_1\Gui.h(7,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+D:\project\proga_1\proga_1\Gui.cpp(63,27): warning C4018: <: несоответствие типов со знаком и без знака
+D:\project\proga_1\proga_1\Gui.cpp(64,31): warning C4018: <: несоответствие типов со знаком и без знака
+D:\project\proga_1\proga_1\Gui.cpp(98,37): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\project\proga_1\proga_1\Gui.cpp(98,34): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\project\proga_1\proga_1\Gui.cpp(103,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+D:\project\proga_1\proga_1\Gui.cpp(103,35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  ConsoleApplication1.vcxproj -> D:\project\ConsoleApplication1\Debug\ConsoleApplication1.exe
