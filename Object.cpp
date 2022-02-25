@@ -1,16 +1,13 @@
 #include "object.h"
 
 Object::Object(ObjectType aType) :
-
 	mType(aType)
 {}
 
-Object::~Object()
-{
-}
-  
+Object::~Object() {}
+
 Object::ObjectType
-Object::getType()const
+Object::getType() const
 {
 	return mType;
 }
