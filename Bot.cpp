@@ -5,17 +5,38 @@
   переделать куда то смотри
   */
 #define raz 64
-#define COMMAND_COUNT 6
-#define START_HEALPH 90
 
-Bot::Bot()
-/*Object(Object::ObjectType::BOT),
-mHealph (START_HEALPH),
-mDirection(),*/
-{};
+#define COMMAND_COUNT		6
+#define BOT_PROGRAM_SIZE	65
 
+#define FOOD_VALUE			10
+#define POISON_VALUE		20
+#define START_HEALPH		90
 
-int
+Bot::Bot() :
+	Object(Object::ObjectType::BOT),
+
+	mHealph(START_HEALPH),
+	mDirection(),
+
+	mProgramPtr(0),
+	mProgram(BOT_PROGRAM_SIZE)
+{
+	for (auto& i : mProgram) i = generateComand();
+}
+
+Bot::Bot(const Bot& aOther) :
+	Object(Object::ObjectType::BOT),
+	mHealph(START_HEALPH),
+	mDirection(),
+	mProgramPtr(0)
+{
+	mProgram = aOther.mProgram;
+}
+
+Bot::~Bot() {}
+
+char
 Bot::getHealph() const
 {
 	return mHealph;
@@ -26,6 +47,39 @@ Bot::getDirection() const
 {
 	return mDirection;
 }
+
+void
+Bot::feed(float aValue)
+{
+	mHealph += FOOD_VALUE * aValue;
+	if (mHealph > 90) mHealph = 90;
+}
+
+void
+Bot::poison(float aValue)
+{
+	mHealph -= POISON_VALUE * aValue;
+}
+
+bool
+Bot::aging()
+{
+	mHealph--;
+	return mHealph > 0;
+}
+
+//
+//int
+//Bot::getHealph() const
+//{
+//	return mHealph;
+//}
+//
+//const Direction&
+//Bot::getDirection() const
+//{
+//	return mDirection;
+//}
 
 
 char
@@ -74,6 +128,8 @@ void Bot::shiftProgramPtr(int aValue)
 		mProgramPtr += mProgram.size();
 	}
 }
+
+
 
 Bot::ActionType
 Bot::makeAction(Object::ObjectType aType)
@@ -124,8 +180,6 @@ Bot::makeAction(Object::ObjectType aType)
 
 	return result;
 }
-
-
-Bot::~Bot() {};
+ 
 
 

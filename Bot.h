@@ -22,15 +22,21 @@ public:
 		LOOK = 4,
 		MAKE = 5
 	};
-	Bot();
-	~Bot();
-	//Bot::ActionType move() ;
-	char generateComand() const;
-	Bot::ActionType makeAction(Object::ObjectType aType);
-	//const Direction& getDirection() const;
 
-	int getHealph() const;
+	Bot();
+	Bot(const Bot& aOther);
+	virtual ~Bot();
+
+	char getHealph() const;
 	const Direction& getDirection() const;
+
+	void feed(float aValue);
+	void poison(float aValue);
+	bool aging();
+
+	Bot::ActionType makeAction(Object::ObjectType aType);
+	void evolve(char aValue);
+	void reset();
 
 private:
 	enum Comands
@@ -43,18 +49,17 @@ private:
 		BOT_TURN_LEFT = 16,
 
 	};
-	std::vector<int> list_comand;
 
-	int mHealph;
+	
+	char mHealph;
 	Direction mDirection;
 
-	int mProgramPtr;
-	std::vector<int> mProgram;
+	char mProgramPtr;
+	std::vector<char> mProgram;
 
-	int generateComand() const;
+	char generateComand() const;
 	void shiftProgramPtr(int aValue);
-
-
+	
 };
 
 #endif // !BOT_H

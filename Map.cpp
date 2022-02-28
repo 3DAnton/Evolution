@@ -90,12 +90,74 @@ void Map::makeTurn()
 		{
 			Bot::ActionType action = botPtr->makeAction(argument);
 			const Direction& dir = botPtr->getDirection();
-			Pair<sint_16> next = dir.shiftPair(cur);
+			Pair<int> next = dir.shiftPair(cur);
+			Object::ObjectType type = mField[next.x][next.y]->getType();
+			switch (action)
+			{
+			case Bot::ActionType::NUN:
+				std::cout << "bot action error\n";
+				break;
+			case Bot::ActionType::VOID:
+				break;
+			case Bot::ActionType::MOVE:
+				if (type == Object::ObjectType::FOOD)
+				{
+					botPtr->feed(0.5);
+					--mFoodtCounter;
+				}
+				else if (type == Object::ObjectType::POISON)
+				{
+					botPtr->poison(0.5);
+					--mPoisonCounter;
+				}
 
-
-
-
-
+				if (type != Object::ObjectType::WALL &&
+					type != Object::ObjectType::BOT)
+				{
+					setExictingObject(botPtr, next);
+					mField[cur.x][cur.y] =
+						new Object(Object::ObjectType::VOID);
+					cur = next;
+				}
+				j = 100;
+				break;
+			case Bot::ActionType::EAT:
+				if (type == Object::ObjectType::FOOD)
+				{
+					botPtr->feed(1);
+					--mFoodtCounter;
+					setNewObject(Object::ObjectType::VOID, next);
+				}
+				else if (type == Object::ObjectType::POISON)
+				{
+					botPtr->poison(1);
+					--mPoisonCounter;
+					setNewObject(Object::ObjectType::VOID, next);
+				}
+				j = 100;
+				break;
+			case Bot::ActionType::MAKE:
+				if (type == Object::ObjectType::POISON)
+				{
+					++mFoodtCounter;
+					--mPoisonCounter;
+					setNewObject(Object::ObjectType::FOOD, next);
+				}
+				break;
+			case Bot::ActionType::LOOK:
+				argument = mField[next.x][next.y]->getType();
+				break;
+			}
+		}
+		if (!botPtr->aging())
+		{
+			mOldBots.push_front(botPtr);
+			clearBotsMemory(8);
+			mField[cur.x][cur.y] = new Object(Object::ObjectType::VOID);
+		}
+		else
+		{
+			mBotsCoord.push(cur);
 		}
 	}
 }
@@ -104,6 +166,7 @@ Bot::ActionType Map::answer_for_bot(Object::ObjectType)
 {
 	return Bot::ActionType();
 }
+
 
 void Map::reloadBotsCoordinates()
 {
@@ -120,3 +183,56 @@ void Map::reloadBotsCoordinates()
 }
 
 Map::~Map() {};
+
+void
+Map::clearBotsMemory(char aValue)
+{
+	while (mOldBots.size() > aValue)
+	{
+		delete(mOldBots.back());
+		mOldBots.pop_back();
+	}
+}
+
+
+void
+Map::setExictingObject
+(
+	Object* aObjectPtr,
+	Pair<int>	aCoord
+)
+{
+	delete(mField[aCoord.x][aCoord.y]);
+	mField[aCoord.x][aCoord.y] = aObjectPtr;
+}
+
+
+void
+Map::setNewObject
+(
+	Object::ObjectType	aType,
+	Pair<int>		aCoord
+)
+{
+	switch (aType)
+	{
+	case Object::VOID:
+		setExictingObject(new Object(Object::ObjectType::VOID), aCoord);
+		break;
+	case Object::BOT:
+		setExictingObject(new Bot(), aCoord);
+		break;
+	case Object::FOOD:
+		setExictingObject(new Object(Object::ObjectType::FOOD), aCoord);
+		break;
+	case Object::POISON:
+		setExictingObject(new Object(Object::ObjectType::POISON), aCoord);
+		break;
+	case Object::WALL:
+		setExictingObject(new Object(Object::ObjectType::WALL), aCoord);
+		break;
+	default:
+		setExictingObject(new Object(Object::ObjectType::NUN), aCoord);
+		break;
+	}
+}

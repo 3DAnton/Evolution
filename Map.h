@@ -25,12 +25,18 @@ public:
 
 
 private:
+	int mFoodtCounter;
+	int mPoisonCounter;
+
 	Bot::ActionType answer_for_bot(Object::ObjectType);
 	std::vector<std::vector<Object*>> mField;
 	void reloadBotsCoordinates();
 	std::queue<Pair<int>> mBotsCoord;
-
-
+	void clearBotsMemory(char aValue = 0);
+	std::deque<Bot*> mOldBots;
+	
+	void setNewObject(Object::ObjectType aType, Pair<int> aCoord);
+	void setExictingObject(Object* aObjectPtr, Pair<int> aCoord);
 };
 
 #endif // !MAP_H

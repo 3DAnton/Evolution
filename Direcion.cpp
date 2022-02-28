@@ -1,5 +1,8 @@
 #include "direction.h"
 
+#define DIRECTION_MIN_LIMIT 0
+#define DIRECTION_MAX_LIMIT 5
+
 Direction::Direction()
 {
 	reset();
@@ -9,6 +12,45 @@ Direction::Direction(char aDirValue) :
 	mValue(aDirValue)
 {}
 
+Direction&
+Direction::operator++() {
+	mValue++;
+	if (mValue > DIRECTION_MAX_LIMIT)
+	{
+		mValue -= DIRECTION_MAX_LIMIT + 1;
+	}
+	return *this;
+}
+
+Direction
+Direction::operator++(int) {
+	Direction tmp({ mValue });
+	++(*this);
+	return tmp;
+}
+
+Direction&
+Direction::operator--() {
+	mValue--;
+	if (mValue < DIRECTION_MIN_LIMIT)
+	{
+		mValue += DIRECTION_MAX_LIMIT + 1;
+	}
+	return *this;
+}
+
+Direction
+Direction::operator--(int) {
+	Direction tmp({ mValue });
+	--(*this);
+	return tmp;
+}
+
+void
+Direction::reset()
+{
+	mValue = std::rand() % 6;
+}
 
 Pair<int>
 Direction::shiftPair(const Pair<int>& aPair) const
