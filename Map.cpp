@@ -38,6 +38,8 @@ Map::Map(int x_world_size, int y_world_size) :
 			if (rand() % 5 == 1)
 			{
 				mField[i][j] = new Object(Object::ObjectType::FOOD);
+				
+
 			}
 			if (rand() % 30 == 1)
 			{
@@ -53,7 +55,8 @@ Map::Map(int x_world_size, int y_world_size) :
 
 			if (rand() % 50 == 1)
 			{
-				mField[i][j] = new Object(Object::ObjectType::BOT);
+				mField[i][j] = new Bot();
+				mBotsCoord.push(Pair<int> (i, j));
 			}
 		}
 	}

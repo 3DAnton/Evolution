@@ -68,68 +68,6 @@ Bot::aging()
 	return mHealph > 0;
 }
 
-//
-//int
-//Bot::getHealph() const
-//{
-//	return mHealph;
-//}
-//
-//const Direction&
-//Bot::getDirection() const
-//{
-//	return mDirection;
-//}
-
-
-char
-Bot::generateComand() const
-{
-	int command = rand() % COMMAND_COUNT;
-	switch (command)
-	{
-	case 0:
-		command = Comands::BOT_GO;
-		break;
-	case 1:
-		command = Comands::BOT_EAT;
-		break;
-	case 2:
-		command = Comands::BOT_MAKE;
-		break;
-	case 3:
-		command = Comands::BOT_LOOK;
-		break;
-	case 4:
-		if (rand() % 2)	command = Comands::BOT_TURN_RIGHT;
-		else			command = Comands::BOT_TURN_LEFT;
-		break;
-	case 5:
-		if (rand() % 2) command = rand() % 10 + 1;
-		else			command = -(rand() % 10 + 1);
-		break;
-	default:
-		std::cout << "error command generating\n";
-		command = 0;
-		break;
-	}
-	return command;
-}
-
-void Bot::shiftProgramPtr(int aValue)
-{
-	mProgramPtr += aValue;
-	while (mProgramPtr >= int(mProgram.size()))
-	{
-		mProgramPtr -= mProgram.size();
-	}
-	while (mProgramPtr < 0)
-	{
-		mProgramPtr += mProgram.size();
-	}
-}
-
-
 
 Bot::ActionType
 Bot::makeAction(Object::ObjectType aType)
@@ -180,6 +118,67 @@ Bot::makeAction(Object::ObjectType aType)
 
 	return result;
 }
- 
+
+void Bot::evolve(char aValue)
+{
+
+}
+
+void
+Bot::reset()
+{
+	mHealph = START_HEALPH;
+	mDirection.reset();
+	mProgramPtr = 0;
+}
+
+
+char
+Bot::generateComand() const
+{
+	int command = rand() % COMMAND_COUNT;
+	switch (command)
+	{
+	case 0:
+		command = Comands::BOT_GO;
+		break;
+	case 1:
+		command = Comands::BOT_EAT;
+		break;
+	case 2:
+		command = Comands::BOT_MAKE;
+		break;
+	case 3:
+		command = Comands::BOT_LOOK;
+		break;
+	case 4:
+		if (rand() % 2)	command = Comands::BOT_TURN_RIGHT;
+		else			command = Comands::BOT_TURN_LEFT;
+		break;
+	case 5:
+		if (rand() % 2) command = rand() % 10 + 1;
+		else			command = -(rand() % 10 + 1);
+		break;
+	default:
+		std::cout << "error command generating\n";
+		command = 0;
+		break;
+	}
+	return command;
+}
+
+
+void Bot::shiftProgramPtr(int aValue)
+{
+	mProgramPtr += aValue;
+	while (mProgramPtr >= int(mProgram.size()))
+	{
+		mProgramPtr -= mProgram.size();
+	}
+	while (mProgramPtr < 0)
+	{
+		mProgramPtr += mProgram.size();
+	}
+}
 
 

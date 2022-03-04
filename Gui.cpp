@@ -14,7 +14,7 @@
 
 void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");     ///  поле
+    
     sf::CircleShape Crc1;
 
     int x = 0, y = 0, k = 0;
@@ -26,12 +26,10 @@ void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
     Crc1.setOutlineThickness(5);                        ///  толщина границы 
     Crc1.setFillColor(sf::Color(120, 120, 120));        ///  цвет внутри
 
-    while (window.isOpen())
-    {
         sf::Event event;
-        while (window.pollEvent(event))
+        while (mWindow.pollEvent(event))
         {
-            /*if (event.type == sf::Event::KeyReleased)
+            if (event.type == sf::Event::KeyReleased)
             {
                 switch (event.key.code)
                 {
@@ -40,9 +38,9 @@ void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
                     std::cout << "ASD";
                 }
                 }
-            }*/
+            }
             if (event.type == sf::Event::Closed)
-                window.close();
+                mWindow.close();
         }
         sf::Font font;//шрифт 
 
@@ -58,7 +56,7 @@ void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
         // text.setPosition(10, 10);                          //задаем позицию текста, центр камеры
 
 
-        window.clear();
+        mWindow.clear();
 
         for (int i = 0; i < result.size(); i++) {
             for (int j = 0; j < result[0].size(); j++)
@@ -96,7 +94,7 @@ void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
                     x = j * 59;
 
                 Crc1.setPosition(x, y);
-                window.draw(Crc1);
+                mWindow.draw(Crc1);
 #ifdef SHOW_CELLS_COORDINATES
 
                 text.setScale(sf::Vector2f(0.5, 0.5));
@@ -110,10 +108,15 @@ void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
 
         }
       //  window.draw(text);//рисую этот текст
-        window.display();
-    }
+        mWindow.display();
+
 
 };
 
-Gui::Gui() {};
+//Gui::Gui(sf::RenderWindow& aWindow) :
+Gui::Gui() :
+    mWindow(sf::VideoMode(1920, 1080), "SFML works!")
+{
+    
+};     ///  поле};
 Gui::~Gui() {};

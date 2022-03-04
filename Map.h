@@ -12,7 +12,6 @@
 #include"Bot.h"
 #include "Domain.h"
 
-
 class Map
 {
 public:

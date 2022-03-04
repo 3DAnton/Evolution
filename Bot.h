@@ -57,8 +57,8 @@ private:
 	char mProgramPtr;
 	std::vector<char> mProgram;
 
-	char generateComand() const;
-	void shiftProgramPtr(int aValue);
+	char generateComand() const;        //
+	void shiftProgramPtr(int aValue);   //
 	
 };
 

@@ -11,11 +11,12 @@ class Gui
 {
 
 public:
+	//Gui(sf::RenderWindow& aWindow);
 	Gui();
 	~Gui();
-	void draw(std::vector<std::vector<Object::ObjectType>>
-		result);
+	void draw(std::vector<std::vector<Object::ObjectType>> result);
 private:
+	
 	sf::RenderWindow mWindow;
 	sf::Text mText;
 };
