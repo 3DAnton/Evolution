@@ -10,63 +10,58 @@
 #define TEXT_SINGLE_DX              10.f
 #define HEXAGON_SIZE                25.f
 #define HEXAGON_OTLINE_THICKNESS    5.f
-#define SHOW_CELLS_COORDINATES
+//#define SHOW_CELLS_COORDINATES    false
 
 void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
 {
-    
     sf::CircleShape Crc1;
 
     int x = 0, y = 0, k = 0;
 
-
-    Crc1.setRadius(30);                                 ///  радиус
+    Crc1.setRadius(20);                                 ///  радиус
     Crc1.setPointCount(6);                              ///  граница
     Crc1.setOutlineColor(sf::Color(70, 70, 70));        ///  цвет гр          /* поле */
-    Crc1.setOutlineThickness(5);                        ///  толщина границы 
+    Crc1.setOutlineThickness(3);                        ///  толщина границы 
     Crc1.setFillColor(sf::Color(120, 120, 120));        ///  цвет внутри
 
-        sf::Event event;
-        while (mWindow.pollEvent(event))
+    sf::Event event;
+    while (mWindow.pollEvent(event))
+    {
+        if (event.type == sf::Event::KeyReleased)
         {
-            if (event.type == sf::Event::KeyReleased)
+            switch (event.key.code)
             {
-                switch (event.key.code)
-                {
-                case (sf::Keyboard::Key::Z):
-                {
-                    std::cout << "ASD";
-                }
-                }
+            case (sf::Keyboard::Key::Z):
+            {
+                int yy = 0;
+                yy++;
+            }
             }
             if (event.type == sf::Event::Closed)
                 mWindow.close();
         }
-        sf::Font font;//шрифт 
+        //sf::Font font;//шрифт 
 
-        if (!font.loadFromFile("font.ttf"))
+        //if (!font.loadFromFile("111.ttf"))
+        //{
+        //    std::cout << "Font load error!\n";
+        //}
+
+    }
+
+
+    sf::View view1;
+    mWindow.clear();
+
+    for (int i = 0; i < result.size(); i++) {
+        for (int j = 0; j < result[0].size(); j++)
         {
-            std::cout << "Font load error!\n";
-        }
-
-        //font.loadFromFile("111.ttf");                       //передаем нашему шрифту файл шрифта 
-        sf::Text text("asdfjkashjkf", font, 20);             //создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);//сам объект текст (не строка)
-        text.setStyle(sf::Text::Bold);                        //жирный и подчеркнутый текст. по умолчанию он "худой":)) и не подчеркнутый
-        text.setFillColor(sf::Color::White);
-        // text.setPosition(10, 10);                          //задаем позицию текста, центр камеры
-
-
-        mWindow.clear();
-
-        for (int i = 0; i < result.size(); i++) {
-            for (int j = 0; j < result[0].size(); j++)
-            {
 
                 if (result[i][j] == Object::ObjectType::VOID)
                     Crc1.setFillColor(sf::Color(120, 120, 120));    //  пусто + !!!!
 
 
-                if (result[i][j] == Object::ObjectType::BOT)       // бот    +
+                if (result[i][j] == Object::ObjectType::BOT)         // бот    +
                     Crc1.setFillColor(sf::Color(250, 250, 20));
 
 
@@ -88,35 +83,35 @@ void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
 
 
                 if (i % 2 == 1)
-                    x = j * 59 + 30;
+                    x = j * 37+19 ;// +19;
+                
 
                 if (i % 2 == 0)
-                    x = j * 59;
-
+                    x = j * 37;
+                
                 Crc1.setPosition(x, y);
                 mWindow.draw(Crc1);
-#ifdef SHOW_CELLS_COORDINATES
+ #ifdef SHOW_CELLS_COORDINATES
+                 sf::Text text("asdfjkashjkf", font, 20);             //создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);//сам объект текст (не строка)
+                 text.setStyle(sf::Text::Bold);                        //жирный и подчеркнутый текст. по умолчанию он "худой":)) и не подчеркнутый
+                 text.setFillColor(sf::Color::White);
+                 text.setPosition(10, 10);                    //задаем позицию текста, центр камеры
 
-                text.setScale(sf::Vector2f(0.5, 0.5));
-                text.setPosition(x + 26, y + 26);
-                text.setString(std::to_string(i) + " " + std::to_string(j));
-               // window.draw(text);
-                text.setScale(sf::Vector2f(1, 1));
+                 text.setScale(sf::Vector2f(0.5, 0.5));
+                 text.setPosition(x + 10, y + 10);
+                 text.setString(std::to_string(i) + " " + std::to_string(j));
+                 mWindow.draw(text);
+                 text.setScale(sf::Vector2f(1, 1));
 #endif // SHOW_CELLS_COORDINATES
             }
-            y = i * 50;
-
+            y = (i+1) * 34;
         }
-      //  window.draw(text);//рисую этот текст
+        //  mWindow.draw(text);//рисую этот текст
         mWindow.display();
-
-
 };
 
 //Gui::Gui(sf::RenderWindow& aWindow) :
-Gui::Gui() :
-    mWindow(sf::VideoMode(1920, 1080), "SFML works!")
-{
-    
-};     ///  поле};
+Gui::Gui( int x, int y) :
+    mWindow(sf::VideoMode(x, y), "EvOlUtIoN")
+{ };     ///  поле};
 Gui::~Gui() {};

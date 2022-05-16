@@ -5,7 +5,7 @@
 #include "Object.h"
 #include "direction.h"
 
-
+#include <set>
 #include <vector>
 #include <iostream>
 
@@ -33,9 +33,9 @@ public:
 	void feed(float aValue);
 	void poison(float aValue);
 	bool aging();
-
+	void test_go();
 	Bot::ActionType makeAction(Object::ObjectType aType);
-	void evolve(char aValue);
+	void evolve(int aValue);
 	void reset();
 
 private:

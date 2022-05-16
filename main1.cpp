@@ -1,14 +1,18 @@
 #include "Gui.h";
 #include "Map.h";
+#include "God.h";
+#include "sas.hpp";
+
+#include <filesystem>
+#include <iostream>
+
+int xL, yL;
+
 
 int main()
 {
-	//sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
-	Map q(20, 32);
-	Gui y;
-	while (true)
-	{
-		y.draw(q.getPresentation());
-		q.makeTurn();
-	}
+	std::cin >> WorldSize::x >> WorldSize::y;
+
+	God g(WorldSize::x, WorldSize::y);
+	g.run();
 }

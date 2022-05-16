@@ -49,26 +49,40 @@ Direction::operator--(int) {
 void
 Direction::reset()
 {
-	mValue = std::rand() % 6;
+   mValue = std::rand() % 6;
 }
 
 Pair<int>
 Direction::shiftPair(const Pair<int>& aPair) const
 {
 	Pair<int> result = aPair;
-	if (result.y % 2 == 0)
+	if (result.x  % 2 == 0)
 	{
-		if (mValue > 2)			--result.x;
-		else if (mValue == 1)	++result.x;
+		if (mValue == 3)
+			--result.y;
+		if (mValue == 4)
+			--result.y;
+		if (mValue == 5)
+			--result.y;
+		if (mValue == 1)	
+			++result.y;
 	}
 	else
 	{
-		if (mValue == 4)		--result.x;
-		else if (mValue < 3)	++result.x;
+		if (mValue == 4)		
+			--result.y;
+		if (mValue == 0)	
+			++result.y;
+		if (mValue == 1)
+			++result.y;
+		if (mValue == 2)
+			++result.y;
 	}
 
-	if (mValue == 0 || mValue == 5)			--result.y;
-	else if (mValue == 2 || mValue == 3)	++result.y;
+	if (mValue == 0 || mValue == 5)	
+		--result.x;
+	else if (mValue == 2 || mValue == 3)
+		++result.x;
 
 	return result;
 }
