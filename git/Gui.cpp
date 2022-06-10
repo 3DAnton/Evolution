@@ -2,7 +2,6 @@
 #include <iostream>
 #include "Gui.h"
 
-
 #define FONT_PATH                   "Banty Bold.ttf"
 #define HEXAGON_DX                  0.f
 #define HEXAGON_DY                  50.f
@@ -13,8 +12,7 @@
 #define HEXAGON_OTLINE_THICKNESS    5.f
 //#define SHOW_CELLS_COORDINATES    false
 
-
-void Gui::draw(std::vector<std::vector<Object::ObjectType>> result ,WorldSize* w)
+void Gui::draw(std::vector<std::vector<Object::ObjectType>> result)
 {
     sf::CircleShape Crc1;
 
@@ -27,39 +25,20 @@ void Gui::draw(std::vector<std::vector<Object::ObjectType>> result ,WorldSize* w
     Crc1.setFillColor(sf::Color(120, 120, 120));        ///  цвет внутри
 
     sf::Event event;
-
     while (mWindow.pollEvent(event))
     {
-        if (event.type == sf::Event::MouseButtonPressed)
-        {
-            if (event.mouseButton.button == sf::Mouse::Right)
-            {
-                std::cout << " ASD ";
-            }
-        }
         if (event.type == sf::Event::KeyReleased)
         {
             switch (event.key.code)
             {
-                case (sf::Keyboard::Key::Z):
-                {
-                    bool q = w->make_a_pause;
-                    w->make_a_pause = !q;
-                    std::cout << "ASDASD" << std::endl;
-                    break;
-                }
-                case (sf::Keyboard::Key::C):
-                {
-                    bool q = w->need_to_draw;
-                    w->need_to_draw = !q;
-                    std::cout << "ASDASasD" << std::endl;
-                    break;
-                }
-                
+            case (sf::Keyboard::Key::Z):
+            {
+                int yy = 0;
+                yy++;
+            }
             }
             if (event.type == sf::Event::Closed)
                 mWindow.close();
-            
         }
         //sf::Font font;//шрифт 
 

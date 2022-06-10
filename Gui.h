@@ -5,16 +5,26 @@
 
 #include <vector>;
 #include "Object.h";
-
+#include "sas.hpp"
 
 class Gui
 {
 
 public:
+	enum EventType
+	{
+		NUN = 0,
+		SWITCH_DRAW_MODE = 1,
+		SWITCH_PAUSE = 2,
+		INCREASE_SPEED = 3,
+		DECREASE_SPEED = 4,
+		STANDART_PAUSE = 5
+	};
 	//Gui(sf::RenderWindow& aWindow);
 	Gui(int x, int y);
 	~Gui();
-	void draw(std::vector<std::vector<Object::ObjectType>> result);
+	std::vector<Gui::EventType> get_events();
+	void draw(std::vector<std::vector<Object::ObjectType>> result,WorldSize* w);
 private:
 	
 	sf::RenderWindow mWindow;
@@ -23,3 +33,5 @@ private:
 
 
 #endif // !GUI_H
+
+
