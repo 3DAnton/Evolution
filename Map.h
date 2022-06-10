@@ -11,19 +11,21 @@
 #include"object.h"
 #include"Bot.h"
 #include "Domain.h"
+#include "sas.hpp"
 
+//struct A { int a; };
 
 class Map
 {
 public:
-	Map(int x_world_size, int y_world_size);
+	Map(WorldSize*);
 	~Map();
 
 	std::queue<Pair<int>> bots;
-	bool need_to_evolve() const;
+	bool need_to_evolve(WorldSize* w) const;
 	std::vector<std::vector<Object::ObjectType>> getPresentation();
-	void evolve();
-	void makeTurn();
+	void evolve(WorldSize* w);
+	void makeTurn(WorldSize* w);
 private:
 
 	int mFoodtCounter;
@@ -50,7 +52,7 @@ private:
 	void setNewObject       (Object::ObjectType aType, Pair<int> aCoord);
 	void setExictingObject  (Object* aObjectPtr, Pair<int> aCoord);
 	void createObjects      (int aLim, Object::ObjectType aType);
-	void regenerate();
+	void regenerate(WorldSize* w);
 };
 
 #endif // !MAP_H           

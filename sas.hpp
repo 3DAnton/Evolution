@@ -1,8 +1,13 @@
+#ifndef SAS_HPP
+#define SAS_HPP
+
+
 struct WorldSize
 {
-	static int x;
-	static int y;
+	int x, y;
+	int amount_bot, amount_food, amount_poison, amount_wall, amount_boot_evolue;
+	bool show_cordinates = false, make_a_pause = true, need_to_draw = true, need_to_pause = false;
 };
 
-int WorldSize::x;
-int WorldSize::y;
+
+#endif // !SAS_HPP      

@@ -1,17 +1,9 @@
 #include "Map.h"
 
-const int BOT_DOWN_LIMIT = 8;
-const int BOT_MULTIPLY_COUNT = 7;
-
-const int bot     = 64;
-const int food   = 550;
-const int poison = 175;
-const int wall   = 150;
-
-Map::Map(int x_world_size, int y_world_size) :
-	mField(x_world_size, std::vector<Object*>(y_world_size, NULL))    //29 52
+Map::Map(WorldSize* w):
+	mField(w->x, std::vector<Object*>(w->y, NULL))    //29 52
 {
-
+	
 	for (int i = 0; i < mField.size(); ++i)
 	{
 		for (int j = 0; j < mField[0].size(); ++j)
@@ -22,20 +14,20 @@ Map::Map(int x_world_size, int y_world_size) :
 
 	for (int i = 0; i < mField.size(); ++i)
 	{
-		mField[i][0] = new Object(Object::ObjectType::WALL);        // лево
-		mField[i][51] = new Object(Object::ObjectType::WALL);       // право
+		mField[i][0] = new Object(Object::ObjectType::WALL);              // лево
+		mField[i][w->y - 1] = new Object(Object::ObjectType::WALL);       // право
 	}
 	for (int j = 0; j < mField[0].size(); ++j)
 	{
-		mField[0][j] = new Object(Object::ObjectType::WALL);        // низ
-		mField[28][j] = new Object(Object::ObjectType::WALL);       // верх
+		mField[0][j] = new Object(Object::ObjectType::WALL);              // низ
+		mField[w->x - 1][j] = new Object(Object::ObjectType::WALL);       // верх
 	}
 
 	srand(time(NULL) + 200);
-	regenerate();
-	createObjects(bot, Object::ObjectType::BOT);                   
+	regenerate(w);
+	createObjects(w-> amount_bot, Object::ObjectType::BOT);
 	
-	createObjects(1, Object::ObjectType::BOT);
+	//createObjects(1, Object::ObjectType::BOT);
 	reloadBotsCoordinates();
 }
 
@@ -59,7 +51,7 @@ Pair<int> Map::findVoid()
 	return result;
 }
 
-void Map::regenerate()
+void Map::regenerate(WorldSize* w)
 {
 	for (int i = 1; i < mField.size() - 1; ++i)
 	{
@@ -69,12 +61,12 @@ void Map::regenerate()
 		}
 	}
 
-	createObjects(food,   Object::ObjectType::FOOD);
-	createObjects(poison, Object::ObjectType::POISON);
-	createObjects(wall,   Object::ObjectType::WALL);
+	createObjects(w->amount_food,   Object::ObjectType::FOOD);
+	createObjects(w->amount_poison, Object::ObjectType::POISON);
+	createObjects(w->amount_wall,   Object::ObjectType::WALL);
 
-	mFoodtCounter = food;
-	mPoisonCounter = poison;
+	mFoodtCounter = w->amount_food;
+	mPoisonCounter = w->amount_poison;
 }
 
 void
@@ -134,7 +126,7 @@ std::vector<std::vector<Object::ObjectType>>
 	return result;
 }
 
-void Map::makeTurn()
+void Map::makeTurn(WorldSize* w)
 {
 	int count = mBotsCoord.size();
 	for (int i = 0; i < count; i++)
@@ -144,7 +136,7 @@ void Map::makeTurn()
 
 		Bot* botPtr = static_cast<Bot*>(mField[cur.x][cur.y]);
 		Object::ObjectType argument = Object::ObjectType::NUN;
-		for (int j = 0; j < 8; ++j)
+		for (int j = 0; j < w->amount_boot_evolue; ++j)
 		{
 			Bot::ActionType action = botPtr->makeAction(argument);
 			const Direction& dir = botPtr->getDirection();
@@ -210,7 +202,7 @@ void Map::makeTurn()
 		if (!botPtr->aging())
 		{
 			mOldBots.push_front(botPtr);
-			clearBotsMemory(8);
+			clearBotsMemory(w->amount_boot_evolue);
 			mField[cur.x][cur.y] = new Object(Object::ObjectType::VOID);
 		}
 		else
@@ -219,8 +211,11 @@ void Map::makeTurn()
 		}
 	}
 
-    int  newPlantCount = 0;
-	newPlantCount = (64*2 - mFoodtCounter) / 50;
+
+
+
+    int  newPlantCount;
+	newPlantCount = (64*4 - mFoodtCounter) / 50;
 	createNewPlant(Object::ObjectType::FOOD,
 		mFoodSuitableCells, newPlantCount);
 	mFoodtCounter += newPlantCount;
@@ -236,7 +231,7 @@ Map::createNewPlant
 (
 	Object::ObjectType				aType,
 	std::queue<Pair<int>>& aSuitableCells,
-	int							aCount
+	int	aCount
 )
 {
 	for (int i = 0; i < aCount; ++i)
@@ -343,15 +338,18 @@ Map::clearBotsMemory(char aValue)
 }
 
 bool
-Map::need_to_evolve() const
+Map::need_to_evolve(WorldSize* w) const
 {
-	return int (mBotsCoord.size()) <= BOT_DOWN_LIMIT;
+	return int (mBotsCoord.size()) <= w->amount_boot_evolue;
 }
 
 void
-Map::evolve()
+Map::evolve(WorldSize* w)
 {
 	std::vector<Bot*> bots;
+	int amount_bot = w->amount_bot, amount_boot_evolue = w->amount_boot_evolue;
+	int k = amount_bot / amount_boot_evolue;
+	int p = amount_bot - k * amount_boot_evolue;
 
 	while (!mBotsCoord.empty())
 	{
@@ -363,9 +361,9 @@ Map::evolve()
 		mField[cur.x][cur.y] = new Object(Object::ObjectType::VOID);
 	}
 
-	regenerate();
+	regenerate(w);
 	
-	while (bots.size() < BOT_DOWN_LIMIT)
+	while (bots.size() < w->amount_boot_evolue)
 	{
 		bots.push_back(static_cast<Bot*>(mOldBots.front()));
 		bots.back()->reset();
@@ -379,7 +377,7 @@ Map::evolve()
 		setExictingObject(i, findVoid());
 	}
 
-	for (char i = 0; i < BOT_MULTIPLY_COUNT; ++i)
+	for (char i = 0; i < k-1; ++i)  
 	{
 		for (auto& j : bots)
 		{
@@ -388,5 +386,15 @@ Map::evolve()
 			setExictingObject(static_cast<Object*> (new_bot), findVoid());
 		}
 	}
+	for (char i = 0; i < p; ++i)
+	{
+			Bot* new_bot = new Bot(*bots[i]);
+			new_bot->evolve((i - 1) < 0 ? 0 : (i - 1));
+			setExictingObject(static_cast<Object*> (new_bot), findVoid());
+	}
+
 	reloadBotsCoordinates();
+	//std::cout << bots.size() << '\n';
+
+
 }
