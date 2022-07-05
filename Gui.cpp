@@ -1,8 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
 #include "Gui.h"
-
-
 
 #define FONT_PATH                   "Banty Bold.ttf"
 #define HEXAGON_DX                  0.f
@@ -12,6 +8,7 @@
 #define TEXT_SINGLE_DX              10.f
 #define HEXAGON_SIZE                25.f
 #define HEXAGON_OTLINE_THICKNESS    5.f
+
 
 
 void Gui::draw_1(std::vector<std::vector<Object::ObjectType>> result, WorldSize* w)
@@ -27,9 +24,7 @@ void Gui::draw_1(std::vector<std::vector<Object::ObjectType>> result, WorldSize*
     Crc1.setFillColor(sf::Color(120, 120, 120));        ///  цвет внутри
 
     sf::Event event;
-
-    sf::Font font;//шрифт 
-
+    sf::Font font;                                         //шрифт   
     if (!font.loadFromFile("111.ttf"))
     {
         std::cout << "Font load error!\n";
@@ -80,8 +75,9 @@ void Gui::draw_1(std::vector<std::vector<Object::ObjectType>> result, WorldSize*
             mWindow.draw(Crc1);
             if (w->need_to_cordinat)
             {
-                sf::Text text("asdfjkashjkf", font, 10);             //создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);//сам объект текст (не строка)
-                text.setStyle(sf::Text::Bold);                        //жирный и подчеркнутый текст. по умолчанию он "худой":)) и не подчеркнутый
+                sf::Text text("asdfjkashjkf", font, 10);               //создаем объект текст. закидываем в объект текст строку, шрифт, размер шрифта(в пикселях);
+                                                                       //сам объект текст (не строка)
+                text.setStyle(sf::Text::Bold);                         //жирный и подчеркнутый текст. по умолчанию он "худой":)) и не подчеркнутый
                 text.setFillColor(sf::Color::White);                   //задаем позицию текста, центр камеры
 
                 text.setScale(sf::Vector2f(0.5, 0.5));
@@ -514,71 +510,88 @@ std::vector<Gui::EventType> Gui::get_events(WorldSize* w)
     return result;
 }
 
+int del = 1080;
 sf::VertexArray Gui::graph()
 {
-    int n = 0, pr = 0, kf = 20, del = 1080;
+    int n = 0, pr = 0, kf = 20;
     std::vector<int> Vec;
-
-    fin.open("out.out");
-    while (fin >> n)
-    {
-        fin >> pr;
-        if (pr > del)
+   
+        fin.open("out.out");
+        while (fin >> n)
         {
-            del = pr;
+            fin >> pr;
+            if (pr > del)
+            {
+                del = pr;
+            }
+            Vec.push_back(pr);
         }
-        Vec.push_back(pr);
-    }
-    del /= 1080;
-    fin.close();
+        del = del / 1080 + 1;
+        fin.close();
 
-    sf::VertexArray lines(sf::Lines, Vec.size() * 2 + Vec.size() / kf * 2 + 2);
+        sf::VertexArray lines(sf::Lines, Vec.size() * 2 + Vec.size() / kf * 2 + 4);
+        lines[Vec.size() * 2 + Vec.size() / kf * 2 + 2].position = sf::Vector2f(4 , 5);
+        lines[Vec.size() * 2 + Vec.size() / kf * 2 + 3].position = sf::Vector2f(100,5);
 
-    if (Vec.size() > 1920) {
-        Vec.erase(Vec.begin(), Vec.end() - 1920);
-        lines[Vec.size() - 1].position = sf::Vector2f(1920, 1080);
-    }
 
-    int i = 1, k = 1;
-    lines[0].position = sf::Vector2f(0, 1080);
-    for (; i < 2 * Vec.size() - 1; i += 2, k++)
-    {
-        lines[i].position = sf::Vector2f(k, 1080 - Vec[k] / del);
-        lines[i + 1].position = sf::Vector2f(k, 1080 - Vec[k] / del);
-    }
-    lines[2 * Vec.size() - 1].position = sf::Vector2f(k - 1, 1080 - Vec[k - 1] / del);
-    /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
-
-    int md;
-    lines[2 * Vec.size()].position = sf::Vector2f(0, 1080 - Vec[0] / del);
-    lines[2 * Vec.size()].color = sf::Color::Red;
-    i += 2;
-
-    for (int j = 0; i < (Vec.size() * 2 + Vec.size() / kf * 2); i += 2, j++)
-    {
-        md = 0;
-        for (; j % kf < kf - 1; ++j)
-        {
-            md += Vec[j] / del;
+        /// /// /// /// /// /// /// /// /// /// /// /// WHITE /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
+        if (Vec.size() > kf) {
+        if (Vec.size() > 1920) {
+            Vec.erase(Vec.begin(), Vec.end() - 1920);
+            lines[Vec.size() - 1].position = sf::Vector2f(1920, 1080);
         }
 
-        lines[i].position = sf::Vector2f(j, 1080 - md / kf);
+        int i = 1, k = 1;
+        lines[0].position = sf::Vector2f(0, 1080);
+        for (; i < 2 * Vec.size() - 1; i += 2, k++)
+        {
+            lines[i].position = sf::Vector2f(k, 1080 - Vec[k] / del);
+            lines[i + 1].position = sf::Vector2f(k, 1080 - Vec[k] / del);
+        }
+        lines[2 * Vec.size() - 1].position = sf::Vector2f(k - 1, 1080 - Vec[k - 1] / del);
+
+        /// /// /// /// /// /// /// /// /// /// /// /// RED /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
+        int md;
+        lines[2 * Vec.size()].position = sf::Vector2f(0, 1080 - Vec[0] / del);
+        lines[2 * Vec.size()].color = sf::Color::Red;
+        i += 2;
+
+        for (int j = 0; i < (Vec.size() * 2 + Vec.size() / kf * 2); i += 2, j++)
+        {
+            md = 0;
+            for (; j % kf < kf - 1; ++j)
+            {
+                md += Vec[j] / del;
+            }
+
+            lines[i].position = sf::Vector2f(j, 1080 - md / kf);
+            lines[i].color = sf::Color::Red;
+            lines[i + 1].position = sf::Vector2f(j, 1080 - md / kf);
+            lines[i + 1].color = sf::Color::Red;
+        }
+        lines[i].position = sf::Vector2f(Vec.size(), 1080 - ((Vec[Vec.size() - 1] + Vec[Vec.size() - 2]) / 2) / del);
         lines[i].color = sf::Color::Red;
-        lines[i + 1].position = sf::Vector2f(j, 1080 - md / kf);
-        lines[i + 1].color = sf::Color::Red;
     }
-    lines[i].position = sf::Vector2f(Vec.size(), 1080 - ((Vec[Vec.size() - 1] + Vec[Vec.size() - 2]) / 2) / del);
-    lines[i].color = sf::Color::Red;
-    /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// /// ///
-
     return lines;
-
 };
 
 void Gui::draw_graph(sf::VertexArray asd)
 {
     mWindow.clear();
     mWindow.draw(asd);
+
+    sf::Font font;//шрифт 
+    if (!font.loadFromFile("111.ttf"))
+    {
+        std::cout << "Font load error!\n";
+    }
+
+    std::string a = std::to_string(del * 1080);
+    sf::Text text(a, font, 30);             
+    text.setFillColor(sf::Color::Green);
+    text.setPosition(1, 1);                    
+    mWindow.draw(text);
+
     mWindow.display();
 }
 
