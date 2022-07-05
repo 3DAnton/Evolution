@@ -7,6 +7,7 @@
 #include "Object.h"
 #include "sas.hpp"
 #include <fstream>
+#include <iostream>
 
 class Gui
 {
