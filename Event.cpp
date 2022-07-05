@@ -17,9 +17,7 @@ Pair<int> Event::mouse()
 {
 	sf::Vector2i q;
 	q = sf::Mouse::getPosition();
-	
 	int x2=q.x, y2=q.y;
-
 	Pair<int> res;
 	res.x = x2;
 	res.y = y2;
