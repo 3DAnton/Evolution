@@ -4,22 +4,25 @@
 #include "Gui.h"
 #include "Map.h"
 #include "Event.h"
-
+#include "sas.hpp"
+#include <fstream>
 
 class God
 {
 public:
-	God(int x,int y);
+	God(WorldSize*);
 	~God();
 
 	
-	
-	void run();
+	int run_2(WorldSize*);
+	void run(WorldSize*);
+	std::ofstream fout;
+	//void first_mes(WorldSize*);
 private:
-	Map q;
-	Gui y;
+	Map mWorld;
+	Gui mWindow;
 	
-	bool pause = false;
+	WorldSize w;
 
 };
 
