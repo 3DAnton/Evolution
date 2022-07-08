@@ -181,7 +181,7 @@ int first_reading(WorldSize* w)
 	sf::RenderWindow first_mes(sf::VideoMode(1920, 1080), "My window");
 	sf::Event event;
 
-	sf::Font font;//øðèôò 
+	sf::Font font;//ÑˆÑ€Ð¸Ñ„Ñ‚ 
 
 	if (!font.loadFromFile("111.ttf"))
 	{
@@ -405,18 +405,27 @@ int first_reading(WorldSize* w)
 			{
 				if (event.key.code == sf::Keyboard::Key::Enter)
 				{
+					if (w->s_cord == 1)
+						w->need_to_cordinat = true;
+					else
+						w->need_to_cordinat = false;
 					vod_cord = false;
 					vod_bot_need_evoule = true;
 				}
 				if (event.key.code == sf::Keyboard::Key::Num0)
 				{
-					w->need_to_cordinat = false;
+					w->s_cord = w->s_cord * 10;
 					s_cord.push_back('0');
 				}
 				if (event.key.code == sf::Keyboard::Key::Num1)
 				{
-					w->need_to_cordinat = true;
+					w->s_cord = w->s_cord * 10 + 1;
 					s_cord.push_back('1');
+				}
+				if (event.key.code == sf::Keyboard::Key::BackSpace)
+				{
+					w->s_cord = w->s_cord / 10;
+					s_cord.erase(s_cord.size() - 1);
 				}
 			}
 				//std::cout << (w->need_to_cordinat) << std::endl;
