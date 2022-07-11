@@ -165,8 +165,11 @@ void reading_keyboard(sf::Event event, std::string& s,bool&vod_1,bool& vod_2,int
 		}
 		case sf::Keyboard::Key::BackSpace:
 		{
-			s.erase(s.size()-1);
-			x = x / 10;
+			if (s.size() > 0)
+			{
+				s.erase(s.size() - 1);
+				x = x / 10; 
+			}
 			break;
 		}
 		}
@@ -424,8 +427,11 @@ int first_reading(WorldSize* w)
 				}
 				if (event.key.code == sf::Keyboard::Key::BackSpace)
 				{
-					w->s_cord = w->s_cord / 10;
-					s_cord.erase(s_cord.size() - 1);
+					if (s_cord.size() > 0)
+					{
+						w->s_cord = w->s_cord / 10;
+						s_cord.erase(s_cord.size() - 1);
+					}
 				}
 			}
 				//std::cout << (w->need_to_cordinat) << std::endl;
